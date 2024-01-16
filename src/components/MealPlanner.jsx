@@ -3,6 +3,8 @@ import axios from "axios";
 import Recipe from "./Recipe";
 import { User } from "@auth0/auth0-react";
 import { UserAuth } from "../Context/AuthContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MealPlanner = () => {
   // const [Food, setFood] = useState([]);
@@ -25,6 +27,16 @@ const MealPlanner = () => {
 
   const FoodName = useRef(null);
   const FoodQuantity = useRef(null);
+  toast.success('Succesfully Added', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
 
   //Food
   const FetchData = async () => {
@@ -77,7 +89,7 @@ const MealPlanner = () => {
       const response = await axios.request(options);
       console.log(response.data);
       let updatedData = [response.data.hits];
-      console.log(response.data.hits);
+      // console.log(response.data.hits);
       setFood(updatedData);
       localStorage.setItem("foodEat", JSON.stringify(updatedData));
     } catch (error) {
@@ -93,82 +105,113 @@ const MealPlanner = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center mt-4">
-      <div className="m-6 text-5xl font-bold">Meal Planner</div>
-      <div className="w-[60%]">
-        <div className="p-2">
-          <label className="mb-2 text-lg">Cuisine:</label>
-          <br />
-          <select
-            className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
-            name="cuisineType"
-            onChange={handleChange}
-          >
-            <option value="">-- Select --</option>
-            <option value="chinese">Chinese</option>
-            <option value="south american">South American</option>
-            <option value="mediterranean">Mediterranean</option>
-            <option value="american">American</option>
-            <option value="korean">Korean</option>
-            <option value="mexican">Mexican</option>
-            <option value="indian">Indian</option>
-          </select>
-        </div>
-        <div className="p-2">
-          <label className="mb-2 text-lg">Meal Type:</label>
-          <br />
-          <select
-            className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
-            name="mealType"
-            onChange={handleChange}
-          >
-            <option value="">-- Select --</option>
-            <option value="lunch/dinner">Lunch/Dinner</option>
-            <option value="breakfast">Breakfast</option>
-            <option value="teatime">Teatime</option>
-          </select>
-        </div>
-        <div className="p-2">
-          <label className="mb-2 text-lg">Health Label: </label>
-          <br />
-          <select
-            className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
-            name="healthLabels"
-            onChange={handleChange}
-          >
-            <option value="">-- Select --</option>
-            <option value="Sugar-Conscious">Sugar-Conscious</option>
-            <option value="Vegan">Vegan</option>
-            <option value="Alcohol-Free">Alcohol-Free</option>
-            <option value="Keto-Friendly">Keto-Friendly</option>
-            <option value="Vegetarian">Vegetarian</option>
-            <option value="Tree-Nut-Free">Tree-Nut-Free</option>
-          </select>
-        </div>
-        <div className="p-2">
-          <label className="mb-2 text-lg">Dish Type: </label>
-          <br />
-          <select
-            className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
-            name="dishType"
-            onChange={handleChange}
-          >
-            <option value="">-- Select --</option>
-            <option value="starter">Starter</option>
-            <option value="bread">Bread</option>
-            <option value="desserts">Desserts</option>
-            <option value="cereals">Cereals</option>
-            <option value="biscuits and cookies">Biscuits and Cookies</option>
-            <option value="salad">Salad</option>
-          </select>
-        </div>
+    
+    <div className="w-full min-h-screen flex flex-col box-border items-center justify-center border-4 border-blue-900">
+            <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="colored"
+/>
+      <div className="m-6 text-5xl font-bold">Meal Planner:</div>
+      <div className="flex flex-row p-4">
+        <label className="mb-2 text-lg">Cuisine:</label>
+        <select
+          className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
+          name="cuisineType"
+          onChange={handleChange}
+        >
+          <option value="">-- Select --</option>
+          <option value="chinese">chinese</option>
+          {/* <option value="clothing">Clothing</option>
+            <option value="accessories">Accessories</option>
+            <option value="fanstore">Fanstore</option> */}
+        </select>
       </div>
+      <div className="flex flex-row p-4">
+        <label className="mb-2 text-lg">Meal Type:</label>
+        <select
+          className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
+          name="mealType"
+          onChange={handleChange}
+        >
+          <option value="">-- Select --</option>
+          <option value="lunch/dinner">lunch/dinner</option>
+          {/* <option value="clothing">Clothing</option>
+            <option value="accessories">Accessories</option>
+            <option value="fanstore">Fanstore</option> */}
+        </select>
+      </div>
+      <div className="flex flex-row p-4">
+        <label className="mb-2 text-lg">Health Label: </label>
+        <select
+          className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
+          name="healthLabels"
+          onChange={handleChange}
+        >
+          <option value="">-- Select --</option>
+          <option value="Sugar-Conscious">Sugar-Conscious</option>
+          <option value="Keto-Friendly">Keto-Friendly</option>
+          <option value="Vegetarian">Vegetarian</option>
+          <option value="Tree-Nut-Free">Tree-Nut-Free</option>
+        </select>
+      </div>
+      <div className="flex flex-row p-4">
+        <label className="mb-2 text-lg">Dish Type: </label>
+        <select
+          className="mb-3 p-2 w-full border-2 hover:border-slate-400 rounded"
+          name="dishType"
+          onChange={handleChange}
+        >
+          <option value="">-- Select --</option>
+          <option value="sstarterhoes">starter</option>
+          {/* <option value="clothing">Clothing</option>
+            <option value="accessories">Accessories</option>
+            <option value="fanstore">Fanstore</option> */}
+        </select>
+      </div>
+
+      {/* <div className="flex flex-row p-4">
+        <label htmlFor="cars">Cuisine: </label>
+        <input type="text" className="border-2 mx-2" ref={FoodName} />
+      </div> */}
       <button
-        className="mt-4 bg-slate-800 duration-300 hover:bg-slate-600 p-2 rounded-lg text-xl text-white w-40"
+        className="bg-black p-2 rounded-lg text-white"
         onClick={giveRecipe}
       >
         Submit
       </button>
+      {/*
+      <table className="table">
+        <thead>
+          <tr>
+            <th className="p-2">Food Name : </th>
+            <th className="p-2">Calories : </th>
+            <th className="p-2">Serving Size : </th>
+            <th className="p-2">Sugar: </th>
+            <th className="p-2">Fat : </th>
+          </tr>
+        </thead>
+        <tbody className="p-4 mx-2 border-2 border-red-900">
+          {Food.map((food, index) => {
+            return (
+              <tr key={index}>
+                <td className="p-2">{food.name}</td>
+                <td className="p-2">{food.calories}</td>
+                <td className="p-2">{food.serving_size_g}</td>
+                <td className="p-2">{food.sugar_g}</td>
+                <td className="p-2">{food.fat_total_g}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table> */}
     </div>
   );
 };

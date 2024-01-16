@@ -5,7 +5,7 @@ import MealPlanner from "./MealPlanner";
 const MealPlannerPage = () => {
   return (
     <div className="w-full flex gap-3">
-      <div className="w-[70%] bg-slate-400">
+      <div className="w-[70%]">
         <Repo />
       </div>
       <div className="w-[30%]">

@@ -1,12 +1,15 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { UserAuth } from "../Context/AuthContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MealTracker = () => {
   const [Food, setFood] = useState([]);
   const FoodName = useRef(null);
   const FoodQuantity = useRef(null);
   const { handleListChange } = UserAuth();
+  
 
   const FetchData = async () => {
     var q = FoodQuantity.current.value + "g " + FoodName.current.value;
@@ -31,7 +34,16 @@ const MealTracker = () => {
       console.error(error);
     }
   };
-
+  toast.success('Succesfully Added', {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  })     
   return (
     <div className="w-full min-h-screen flex flex-col box-border items-center justify-center border-4 border-blue-900">
       <div className="m-6 text-5xl font-bold">FOOD ANALYSER :</div>
@@ -62,6 +74,18 @@ const MealTracker = () => {
             <th className="p-2">Serving Size</th>
           </tr>
         </thead>
+        <ToastContainer
+  position="top-right"
+  autoClose={5000}
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  rtl={false}
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover
+  theme="colored"
+  />
         <tbody className="p-4 mx-2 border-2 border-red-900">
           {Food.map((food, index) => {
             return (
@@ -75,7 +99,7 @@ const MealTracker = () => {
                 <td className="p-2">{food.serving_size_g}</td>
                 <td>
                   <button
-                    onClick={() => handleListChange(food, 2)}
+                    onClick={()=>{handleListChange(food,2)}}
                     className="flex origin-right  px-2 py-1 bg-amber-300 rounded"
                   >
                     Add to List
