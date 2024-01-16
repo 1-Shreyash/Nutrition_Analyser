@@ -1,8 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import Recipe from "./Recipe";
+import { User } from "@auth0/auth0-react";
+import { UserAuth } from "../Context/AuthContext";
 
 const MealPlanner = () => {
-  const [Food, setFood] = useState([]);
+  // const [Food, setFood] = useState([]);
+  const { Food, setFood } = UserAuth();
 
   const [formData, setFormData] = useState({
     cuisineType: "",
@@ -72,7 +76,7 @@ const MealPlanner = () => {
     try {
       const response = await axios.request(options);
       console.log(response.data);
-      let updatedData = [response.data];
+      let updatedData = [response.data.hits];
       console.log(response.data.hits);
       setFood(updatedData);
       localStorage.setItem("foodEat", JSON.stringify(updatedData));
