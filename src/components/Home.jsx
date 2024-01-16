@@ -34,13 +34,12 @@ Introducing a Nutrition Analysis App: Effortlessly log meals, analyze macronutri
       </div>
 
       <div className="w-full flex flex-row my-8">
-        <img src={MealPlanner} className="w-[30%] h-80" alt="" />
+        <img src={MealPlanner} className="w-[30%]" alt="" />
         <div className="flex flex-col justify-center items-center text-center w-[70%] p-24">
           <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
             MEAL PLANNER
           </div>
           <div className="text-2xl font-bold  pt-6">
-            
 Introducing a Nutrition Analysis App: Effortlessly log meals, analyze macronutrients, and set personalized dietary goals for a comprehensive view of your nutritional intake. With features like barcode scanning, allergen alerts, and progress tracking, this user-friendly app empowers individuals to make informed and healthy choices. Elevate your well-being with a tool that goes beyond calorie counting, providing education and insights for a balanced and sustainable lifestyle.
           </div>
         </div>
