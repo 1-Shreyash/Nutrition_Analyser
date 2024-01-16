@@ -3,6 +3,7 @@ import axios from "axios";
 import { db } from '../Firebase';
 import {updateDoc,doc,onSnapshot} from "firebase/firestore"
 import { UserAuth } from '../Context/AuthContext';
+import { Chart } from "react-google-charts";
 
 const Dashboard = () => {
   const [Food, setFood] = useState([]);
@@ -10,6 +11,17 @@ const Dashboard = () => {
   const FoodQuantity = useRef(null);
   const {user}=UserAuth();
     const [Meals,setMeals]=useState([]);
+   const data = [
+      ["Task", "Hours per Day"],
+      ["Fats", 11],
+      ["Carbs", 2],
+      ["Protein", 2],
+      ["Fibre", 2],
+      
+    ];
+    const options = {
+      title: "My Daily Activities",
+    };
     useEffect(() => {
         onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
           setMeals(doc.data()?.meals);
@@ -72,33 +84,7 @@ const Dashboard = () => {
   },[])
 
   return (
-    <div className="w-full min-h-screen flex flex-col box-border items-center justify-center border-4 border-blue-900">
-      <div className="m-6 text-5xl font-bold">FOOD ANALYSER :</div>
-      <div className="flex flex-row p-4">
-        <label htmlFor="cars">Add dish name:</label>
-        <input type="text" className="border-2 mx-2" ref={FoodName} />
-      </div>
-      <div className="flex flex-row p-4 mx-2">
-        <label htmlFor="cars">Specify quantity: </label>
-        <input type="number" className="mx-2 border-2" ref={FoodQuantity} />
-        <div>(in g)</div>
-      </div>
-      <button
-        className="bg-black p-2 rounded-lg text-white"
-        onClick={FetchData}
-      >
-        Submit
-      </button>
-      <table className="table">
-        <thead>
-          <tr>
-            <th className="p-2">Food Name : </th>
-            <th className="p-2">Calories : </th>
-            <th className="p-2">Serving Size : </th>
-            <th className="p-2">Sugar: </th>
-            <th className="p-2">Fat : </th>
-          </tr>
-        </thead>
+    <div className="w-full min-h-screen h-screen flex justify-between border-blue-900">
         <div>
         {Meals.map((item) => (
             <div
@@ -109,20 +95,14 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
-        {/* <tbody className="p-4 mx-2 border-2 border-red-900">
-          {Food.map((food, index) => {
-            return (
-              <tr key={index}>
-                <td className="p-2">{food.name}</td>
-                <td className="p-2">{food.calories}</td>
-                <td className="p-2">{food.serving_size_g}</td>
-                <td className="p-2">{food.sugar_g}</td>
-                <td className="p-2">{food.fat_total_g}</td>
-              </tr>
-            );
-          })}
-        </tbody> */}
-      </table>
+      
+              <Chart
+      chartType="PieChart"
+      data={data}
+      options={options}
+      width={"100%"}
+      height={"400px"}
+    />
     </div>
   );
 };
