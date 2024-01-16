@@ -77,7 +77,7 @@ const MealPlanner = () => {
       const response = await axios.request(options);
       console.log(response.data);
       let updatedData = [response.data.hits];
-      console.log(response.data.hits);
+      // console.log(response.data.hits);
       setFood(updatedData);
       localStorage.setItem("foodEat", JSON.stringify(updatedData));
     } catch (error) {

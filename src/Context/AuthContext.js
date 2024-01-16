@@ -15,6 +15,12 @@ export function AuthContextProvider({ children }) {
   const [Food, setFood] = useState([]);
   const [List, setList] = useState([]);
 
+  const handleListChange = (food) => {
+    let updatedData = [...List, food];
+    setList(updatedData);
+    console.log(updatedData);
+  };
+
   function createUser(email, password) {
     createUserWithEmailAndPassword(auth, email, password);
     setDoc(doc(db, "users", email), {
@@ -38,7 +44,17 @@ export function AuthContextProvider({ children }) {
   });
   return (
     <AuthContext.Provider
-      value={{ createUser, List, setList, user, logOut, logIn, Food, setFood }}
+      value={{
+        createUser,
+        List,
+        setList,
+        user,
+        logOut,
+        logIn,
+        Food,
+        setFood,
+        handleListChange,
+      }}
     >
       {children}
     </AuthContext.Provider>
