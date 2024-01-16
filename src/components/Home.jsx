@@ -20,7 +20,7 @@ const Home = () => {
         UNIQUE FEATURES :{" "}
       </div>
 
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-row my-8">
         <div className="flex flex-col justify-center items-center text-center w-[70%]">
           <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
             NUTRITION ANALYSER
@@ -33,6 +33,39 @@ const Home = () => {
             quis corporis.
           </div>
         </div>
+        <img src={NutritionAnalysis} className="w-[30%]" alt="" />
+      </div>
+
+      <div className="w-full flex flex-row my-8">
+        <div className="flex flex-col justify-center items-center text-center w-[70%]">
+          <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
+            MEAL PLANNER
+          </div>
+          <div className="text-2xl font-bold  pt-6">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Voluptatibus voluptates at porro harum architecto laboriosam
+            doloremque libero molestias, est, eveniet sit. Minima, totam.
+            Laborum explicabo fuga id vitae temporibus exercitationem odio fugit
+            quis corporis.
+          </div>
+        </div>
+        <img src={MealPlanner} className="w-[30%]" alt="" />
+      </div>
+
+      <div className="w-full flex flex-row my-8">
+        <div className="flex flex-col justify-center items-center text-center w-[70%]">
+          <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
+            NUTRITION ANALYSER
+          </div>
+          <div className="text-2xl font-bold  pt-6">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Voluptatibus voluptates at porro harum architecto laboriosam
+            doloremque libero molestias, est, eveniet sit. Minima, totam.
+            Laborum explicabo fuga id vitae temporibus exercitationem odio fugit
+            quis corporis.
+          </div>
+        </div>
+        <img src={NutritionAnalysis} className="w-[30%]" alt="" />
       </div>
     </div>
   );
