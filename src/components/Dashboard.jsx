@@ -1,10 +1,42 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import { db } from '../Firebase';
+import {updateDoc,doc,onSnapshot} from "firebase/firestore"
+import { UserAuth } from '../Context/AuthContext';
 
 const Dashboard = () => {
   const [Food, setFood] = useState([]);
   const FoodName = useRef(null);
   const FoodQuantity = useRef(null);
+  const {user}=UserAuth();
+    const [Meals,setMeals]=useState([]);
+    useEffect(() => {
+        onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
+          setMeals(doc.data()?.meals);
+        });
+      }, [user?.email]);
+    // const movid=doc(db,'users',`${user?.email}`);
+    // const deletemovie=async(selected)=>{
+    //   try{
+    //    const result=Movies.filter((movie)=>movie.id!==selected)
+    //    await updateDoc(movid,{
+    //        watchList:result, 
+    //    });
+    //   }catch(error){
+    //     console.log(error);
+    //   }
+    //   toast.error('Removed from Watchlist', {
+    //     position: "top-center",
+    //     autoClose: 15,
+    //     hideProgressBar: true,
+    //     closeOnClick: false,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "colored",
+    //     });
+    // }
+      
 
   const FetchData = async () => {
     var q = FoodQuantity.current.value + "g " + FoodName.current.value;
@@ -67,6 +99,16 @@ const Dashboard = () => {
             <th className="p-2">Fat : </th>
           </tr>
         </thead>
+        <div>
+        {Meals.map((item) => (
+            <div
+              className='flex flex-col space-y-2'
+            >
+              {item}
+
+            </div>
+          ))}
+        </div>
         {/* <tbody className="p-4 mx-2 border-2 border-red-900">
           {Food.map((food, index) => {
             return (
