@@ -18,7 +18,7 @@ const Repo = () => {
               />
             </a>
             <button
-              onClick={() => handleListChange(food)}
+              onClick={() => handleListChange(food, 1)}
               className="flex origin-right  px-2 py-1 bg-amber-300 rounded"
             >
               Add to list

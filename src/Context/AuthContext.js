@@ -15,11 +15,44 @@ export function AuthContextProvider({ children }) {
   const [Food, setFood] = useState([]);
   const [List, setList] = useState([]);
 
-  const handleListChange = (food) => {
-    let updatedData = [...List, food];
-    setList(updatedData);
-    console.log(updatedData);
+  const handleListChange = (food, flag) => {
+    if (flag === 1) {
+      const fooddata = {
+        name: food.recipe.label,
+        calories: food.recipe.calories,
+        carbs: food.recipe.digest[1].total,
+        fat: food.recipe.digest[0].total,
+        protein: food.recipe.digest[2].total,
+        sodium: food.recipe.digest[4].total,
+      };
+
+      let updatedData = [...List, fooddata];
+      setList(updatedData);
+      localStorage.setItem("selectedFood", JSON.stringify(updatedData));
+      console.log(updatedData);
+    } else if (flag === 2) {
+      const fooddata = {
+        name: food.name,
+        calories: food.calories,
+        carbs: food.carbohydrates_total_g,
+        fat: food.fat_total_g,
+        protein: food.protein_g,
+        sodium: food.sodium_mg,
+      };
+
+      let updatedData = [...List, fooddata];
+      setList(updatedData);
+      localStorage.setItem("selectedFood", JSON.stringify(updatedData));
+      console.log(updatedData);
+    }
   };
+
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("selectedFood"));
+    if (data) {
+      setList(data);
+    }
+  }, []);
 
   function createUser(email, password) {
     createUserWithEmailAndPassword(auth, email, password);
