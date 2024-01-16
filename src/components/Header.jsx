@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useNavigate} from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { useAuth0 } from "@auth0/auth0-react";
+import { db } from '../Firebase';
+import {updateDoc,doc,onSnapshot,setDoc} from "firebase/firestore"
 import MealPlanner from "./MealPlanner";
+import { UserAuth } from '../Context/AuthContext';
 
 const Header = () => {
-  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
-
+  const {user,logout}=UserAuth();
   const [nav, setNav] = useState(false);
   const handleNav = () => {
     setNav(!nav);
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, []);
 
   return (
     <div className="flex justify-between items-center h-24 mx-auto px-4 text-white bg-black rounded-xl w-[98%] m-4">
@@ -28,42 +29,33 @@ const Header = () => {
           <Link to="/nutritionCalculator">Nutrition Calculator</Link>
         </li>
 
-        {!isAuthenticated && (
+        {user && (
           <li className="p-4">
             <Link
               className="text-lg font-semibold duration-300 text-white hover:text-xl"
-              onClick={() => loginWithRedirect()}
+              onClick={logout}
             >
-              Log In
+              Log out
             </Link>
           </li>
         )}
-        {isAuthenticated && (
+        {user && (
           <>
             <li className="p-4">
-              <Link to={`/user/${user.nickname}`}>Dashboard</Link>
+              <Link to={`/user/${user.email}`}>Dashboard</Link>
             </li>
             <li className="p-4">
               <Link to="/MealPlanner">MealPlanner</Link>
             </li>
-            <li className="p-4">
-              <button
-                onClick={() =>
-                  logout({ logoutParams: { returnTo: window.location.origin } })
-                }
-              >
-                Log Out
-              </button>
-            </li>
 
             <li className="p-4">
               <div className="flex gap-2 place-items-center">
-                <img
-                  src={user.picture}
+                {/* <img
+                  src={user.image}
                   className="w-8 rounded-full"
                   alt="user avatar"
-                />
-                <div>{user?.name}</div>
+                /> */}
+                {/* <div>{user?.name}</div> */}
               </div>
             </li>
           </>
@@ -105,22 +97,20 @@ const Header = () => {
           >
             <Link to="/Contact">Contact us</Link>
           </li>
-          {!isAuthenticated && (
+          {!user && (
             <li>
-              <Link onClick={() => loginWithRedirect()}>Log In</Link>
+              {/* <Link onClick={() => loginWithRedirect()}>Log In</Link> */}
             </li>
           )}
-          {isAuthenticated && (
+          {user && (
             <>
               <li className="p-4 border-b border-gray-600">
-                <Link to={`/user/${user.nickname}`}>Dashboard</Link>
+                <Link to={`/user/${user.email}`}>Dashboard</Link>
               </li>
               <li className="p-4 border-b border-gray-600">
                 <button
-                  onClick={() =>
-                    logout({
-                      logoutParams: { returnTo: window.location.origin },
-                    })
+                  onClick={
+                   logout
                   }
                 >
                   Log Out
@@ -130,11 +120,11 @@ const Header = () => {
               <li className="p-4 border-b border-gray-600">
                 <div className="flex gap-2 place-items-center">
                   <img
-                    src={user.picture}
+                    src={user.image}
                     className="w-8 rounded-full"
                     alt="user avatar"
                   />
-                  <div>{user.name}</div>
+                  {/* <div>{user.name}</div> */}
                 </div>
               </li>
             </>

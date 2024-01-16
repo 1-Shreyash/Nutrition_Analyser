@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 
 const MealPlanner = () => {
-  // const [Food, setFood] = useState([]);
+const [Food, setFood] = useState([]);
 
   const [formData, setFormData] = useState({
     cuisineType: "",

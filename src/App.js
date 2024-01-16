@@ -6,15 +6,21 @@ import Dashboard from './components/Dashboard';
 import Blogs from './components/Blogs';
 import Feedback from './components/Feedback';
 import NutritionCalculator from './components/NutritionCalculator';
+import Signin from './components/Signin';
+import Login from './components/Login';
 import MealPlanner from './components/MealPlanner';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthContextProvider } from './Context/AuthContext';
 
 function App() {
   return (
+    <AuthContextProvider>
     <BrowserRouter>
       <Header/>
       <Routes>
         <Route path="/" element={<Home/>}/>
+        <Route path="/Signin" element={<Signin/>}/>
+        <Route path="/Login" element={<Login/>}/>
         <Route path="/nutritionCalculator" element={<MealTracker/>}/>
         <Route path="/user/:id" element={<Dashboard/>}/>
         <Route path="/MealPlanner" element={<MealPlanner/>}/>
@@ -22,6 +28,7 @@ function App() {
         <Route path="/feedback" element={<Feedback/>}/>
       </Routes>
     </BrowserRouter>
+    </AuthContextProvider>
 
     
   );
