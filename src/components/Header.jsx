@@ -7,7 +7,7 @@ import MealPlanner from "./MealPlanner";
 import { UserAuth } from '../Context/AuthContext';
 
 const Header = () => {
-  const {user,logout}=UserAuth();
+  const {user,logOut}=UserAuth();
   const [nav, setNav] = useState(false);
   const handleNav = () => {
     setNav(!nav);
@@ -28,14 +28,27 @@ const Header = () => {
         <li className="p-4">
           <Link to="/nutritionCalculator">Nutrition Calculator</Link>
         </li>
+        {user && <li className="p-4">
+          {user.email}
+        </li>}
 
         {user && (
           <li className="p-4">
             <Link
               className="text-lg font-semibold duration-300 text-white hover:text-xl"
-              onClick={logout}
+              onClick={logOut}
             >
               Log out
+            </Link>
+          </li>
+        )}
+         {!user && (
+          <li className="p-4">
+            <Link
+              className="text-lg font-semibold duration-300 text-white hover:text-xl"
+              to="/Login"
+            >
+              Log In
             </Link>
           </li>
         )}
@@ -110,7 +123,7 @@ const Header = () => {
               <li className="p-4 border-b border-gray-600">
                 <button
                   onClick={
-                   logout
+                    logOut
                   }
                 >
                   Log Out

@@ -7,16 +7,28 @@ import { Chart } from "react-google-charts";
 
 const Dashboard = () => {
   const [Food, setFood] = useState([]);
+  const {user,List}=UserAuth();
+  var Protein=0;
+  var Carbs=0;
+  var Sodium=0;
+  var Fat=0;
+  for(var i=0;i<List.length;i++){
+    Protein+=List[i].protein;
+    Carbs+=List[i].carbs;
+    Fat+=List[i].fat;
+    Sodium+=(List[i].sodium/1000);
+  }
   const FoodName = useRef(null);
   const FoodQuantity = useRef(null);
-  const {user}=UserAuth();
+
     const [Meals,setMeals]=useState([]);
    const data = [
       ["Task", "Hours per Day"],
-      ["Fats", 11],
-      ["Carbs", 2],
-      ["Protein", 2],
-      ["Fibre", 2],
+      ["Fats", Fat],
+      ["Carbs", Carbs],
+      ["Protein", Protein],
+      ["Fibre", Carbs],
+      ["Sodium", Sodium],
       
     ];
     const options = {
@@ -63,14 +75,33 @@ const Dashboard = () => {
   return (
     <div className="w-full min-h-screen h-screen flex justify-between border-blue-900">
         <div>
-        {Meals.map((item) => (
-            <div
-              className='flex flex-col space-y-2'
-            >
-              {item}
 
-            </div>
-          ))}
+         <table className="table">
+        <thead>
+          <tr>
+            <th className="p-2">Food Name</th>
+            <th className="p-2">Calories</th>
+            <th className="p-2">Carbs</th>
+            <th className="p-2">Protein</th>
+            <th className="p-2">Fat</th>
+            <th className="p-2">Sodium</th>
+          </tr>
+        </thead>
+        <tbody className="p-4 mx-2 border-2 border-red-900">
+          {List.map((food) => {
+            return (
+              <tr>
+                <td className="p-2">{food.name}</td>
+                <td className="p-2">{food.calories}</td>
+                <td className="p-2">{food.carbs}</td>
+                <td className="p-2">{food.protein}</td>
+                <td className="p-2">{food.fat}</td>
+                <td className="p-2">{food.sodium}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
         </div>
       
               <Chart

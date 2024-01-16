@@ -62,7 +62,7 @@ const Login = () => {
                   <span className='text-gray-600'>
                     Don't have an account?
                   </span>{' '}
-                  <Link to='/Home'>Sign Up</Link>
+                  <Link to='/Signin'>Sign Up</Link>
                 </p>
               </form>
             </div>
