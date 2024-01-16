@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 
 const MealPlanner = () => {
@@ -72,10 +72,21 @@ const MealPlanner = () => {
     try {
       const response = await axios.request(options);
       console.log(response.data);
+      let updatedData = [...Food, response.data];
+      console.log(response.data);
+      setFood(updatedData);
+      localStorage.setItem("foodEat", JSON.stringify(updatedData));
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(()=>{
+    let data = JSON.parse(localStorage.getItem("foodEat"));
+    if (data) {
+      setFood(data);
+    }
+  },[])
 
   return (
     <div className="w-full min-h-screen flex flex-col box-border items-center justify-center border-4 border-blue-900">
