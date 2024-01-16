@@ -33,8 +33,8 @@ Introducing a Nutrition Analysis App: Effortlessly log meals, analyze macronutri
         <img src={NutritionAnalysis} className="w-[30%] m-12" alt="" />
       </div>
 
-      <div className="w-full flex flex-row my-8">
-        <img src={MealPlanner} className="w-[30%]" alt="" />
+      <div className="w-full flex flex-row items-center justify-center my-8">
+        <img src={MealPlanner} className="w-[30%] h-[50%]" alt="" />
         <div className="flex flex-col justify-center items-center text-center w-[70%] p-24">
           <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
             MEAL PLANNER
