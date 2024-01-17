@@ -1,15 +1,12 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { UserAuth } from "../Context/AuthContext";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const MealTracker = () => {
   const [Food, setFood] = useState([]);
   const FoodName = useRef(null);
   const FoodQuantity = useRef(null);
   const { handleListChange } = UserAuth();
-  
 
   const FetchData = async () => {
     var q = FoodQuantity.current.value + "g " + FoodName.current.value;
@@ -34,27 +31,25 @@ const MealTracker = () => {
       console.error(error);
     }
   };
-  toast.success('Succesfully Added', {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-  })     
+
   return (
-    <div className="w-full min-h-screen flex flex-col box-border items-center justify-center border-4 border-blue-900">
-      <div className="m-6 text-5xl font-bold">FOOD ANALYSER :</div>
-      <div className="flex flex-row p-4">
+    <div className="w-full text-xl min-h-screen flex flex-col box-border items-center justify-center ">
+      <div className="m-6 text-5xl font-bold">Find your food</div>
+      <div className="flex flex-col p-4">
         <label htmlFor="cars">Choose a dish:</label>
-        <input type="text" className="border-2 mx-2" ref={FoodName} />
+        <input
+          type="text"
+          className="border-2 mx-2 mt-1 px-2 py-1 rounded-md"
+          ref={FoodName}
+        />
       </div>
-      <div className="flex flex-row p-4 mx-2">
-        <label htmlFor="cars">Specify quantity : </label>
-        <input type="number" className="mx-2 border-2" ref={FoodQuantity} />
-        <div>(in g)</div>
+      <div className="flex flex-col p-4 mx-2">
+        <label htmlFor="cars">Specify quantity (in grams): </label>
+        <input
+          type="number"
+          className="mx-2 border-2 mt-1 px-2 py-1 rounded-md"
+          ref={FoodQuantity}
+        />
       </div>
       <button
         className="bg-black p-2 rounded-lg text-white"
@@ -62,7 +57,7 @@ const MealTracker = () => {
       >
         Submit
       </button>
-      <table className="table">
+      <table className="table mt-10">
         <thead>
           <tr>
             <th className="p-2">Food Name</th>
@@ -74,19 +69,7 @@ const MealTracker = () => {
             <th className="p-2">Serving Size</th>
           </tr>
         </thead>
-        <ToastContainer
-  position="top-right"
-  autoClose={5000}
-  hideProgressBar={false}
-  newestOnTop={false}
-  closeOnClick
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="colored"
-  />
-        <tbody className="p-4 mx-2 border-2 border-red-900">
+        <tbody className="p-4 mx-2 border-t-2 border-zinc-600">
           {Food.map((food, index) => {
             return (
               <tr key={index}>
@@ -99,8 +82,8 @@ const MealTracker = () => {
                 <td className="p-2">{food.serving_size_g}</td>
                 <td>
                   <button
-                    onClick={()=>{handleListChange(food,2)}}
-                    className="flex origin-right  px-2 py-1 bg-amber-300 rounded"
+                    onClick={() => handleListChange(food, 2)}
+                    className="flex origin-right px-2 py-1 bg-slate-800 rounded text-slate-200"
                   >
                     Add to List
                   </button>

@@ -12,3 +12,7 @@
 *{
   font-family: "san-serif";
 }
+
+.bxs{
+  box-shadow: 5px 100px 100px #555;
+}

@@ -3,10 +3,12 @@ import himg from "../resources/HFimg.gif";
 import NutritionAnalysis from "../resources/NutritionAnalysis.jpeg";
 import MealPlanner from "../resources/MealPlanner.webp";
 import UI from "../resources/UI2.gif"
+import Fade from 'react-reveal/Fade';
 
 const Home = () => {
   return (
     <div className="flex flex-col p-6">
+      <Fade top>
       <div className="flex flex-row items-center justify-center">
         <div className="w-[50%] lemon-regular text-5xl pl-40 text-center">
           <span className="text-green-600">Healthy</span> eating is a form of
@@ -17,9 +19,10 @@ const Home = () => {
         </div>
       </div>
       <div className="flex justify-center items-center text-5xl my-16 lemon-regular pt-6">
-        UNIQUE FEATURES :{" "}
+        UNIQUE FEATURES {" "}
       </div>
-
+      </Fade>
+<Fade left>
       <div className="w-full flex flex-row my-8">
         <div className="flex flex-col justify-center items-center text-center w-[70%] p-24">
           <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
@@ -30,11 +33,12 @@ const Home = () => {
 Introducing a Nutrition Analysis App: Effortlessly log meals, analyze macronutrients, and set personalized dietary goals for a comprehensive view of your nutritional intake. Elevate your well-being with a tool that goes beyond calorie counting, providing education and insights for a balanced and sustainable lifestyle.
           </div>
         </div>
-        <img src={NutritionAnalysis} className="w-[30%] m-12" alt="" />
+        <img src={NutritionAnalysis} className="w-[30%] rounded-md m-12" alt="" />
       </div>
-
+</Fade>
+      <Fade right>
       <div className="w-full flex flex-row items-center justify-center my-8">
-        <img src={MealPlanner} className="w-[30%] h-[50%]" alt="" />
+        <img src={MealPlanner} className="w-[30%] h-[50%] rounded-md" alt="" />
         <div className="flex flex-col justify-center items-center text-center w-[70%] p-24">
           <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
             MEAL PLANNER
@@ -44,7 +48,10 @@ Introducing a Nutrition Analysis App: Effortlessly log meals, analyze macronutri
           </div>
         </div>
       </div>
+      </Fade>
 
+
+      <Fade left>
       <div className="w-full flex flex-row my-8">
         <div className="flex flex-col justify-center items-center text-center w-[70%] p-24">
           <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular pt-6">
@@ -57,6 +64,7 @@ Immerse yourself in a seamless online experience with our website's interactive 
         </div>
         <img src={UI} className="w-[30%] m-12" alt="" />
       </div>
+      </Fade>
     </div>
   );
 };

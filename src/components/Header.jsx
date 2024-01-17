@@ -5,6 +5,7 @@ import { db } from '../Firebase';
 import {updateDoc,doc,onSnapshot,setDoc} from "firebase/firestore"
 import MealPlanner from "./MealPlanner";
 import { UserAuth } from '../Context/AuthContext';
+// import "../index.css"
 
 const Header = () => {
   const {user,logOut}=UserAuth();
@@ -18,9 +19,11 @@ const Header = () => {
   // }, []);
 
   return (
-    <div className="flex justify-between items-center h-24 mx-auto px-4 text-white bg-black rounded-xl w-[98%] m-4">
+    <div className="shadow-lg sticky absolute top-4 z-50 flex justify-between items-center h-24 mx-auto px-4 text-black bg-[#EAF4E6]  rounded-xl w-[98%] m-4 text-xl bsx">
       {/* <Image src={zetlogo} className='h-10 -ml-5'/> */}
-      <button className="bg-[#2075f0] rounded p-2">Nutrition Tracker</button>
+      <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular">
+          HEALTHIFY
+      </div>
       <ul className="hidden md:flex">
         <li className="p-4">
           <Link to="/">Home</Link>
@@ -28,24 +31,11 @@ const Header = () => {
         <li className="p-4">
           <Link to="/nutritionCalculator">Nutrition Calculator</Link>
         </li>
-        {user && <li className="p-4">
-          {user.email}
-        </li>}
-
-        {user && (
-          <li className="p-4">
-            <Link
-              className="text-lg font-semibold duration-300 text-white hover:text-xl"
-              onClick={logOut}
-            >
-              Log out
-            </Link>
-          </li>
-        )}
+        
          {!user && (
           <li className="p-4">
             <Link
-              className="text-lg font-semibold duration-300 text-white hover:text-xl"
+              className="text-lg font-semibold duration-300 text-black hover:text-xl"
               to="/Login"
             >
               Log In
@@ -72,6 +62,19 @@ const Header = () => {
               </div>
             </li>
           </>
+        )}
+{user && <li className="p-4">
+          {user.email}
+        </li>}
+        {user && (
+          <li className="p-4">
+            <Link
+              className="text-lg font-semibold duration-300 text-black hover:text-xl"
+              onClick={logOut}
+            >
+              Log out
+            </Link>
+          </li>
         )}
       </ul>
 

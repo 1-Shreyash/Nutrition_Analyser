@@ -32,7 +32,7 @@ const Dashboard = () => {
       
     ];
     const options = {
-      title: "My Daily Activities",
+      title: "My DAILY NUTRITION CHART",
     };
     useEffect(() => {
         onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
@@ -73,30 +73,30 @@ const Dashboard = () => {
   },[])
 
   return (
-    <div className="w-full min-h-screen h-screen flex justify-between border-blue-900">
+    <div className="w-full min-h-screen h-screen flex justify-between border-blue-900 p-12 text-xl">
         <div>
 
          <table className="table">
         <thead>
           <tr>
-            <th className="p-2">Food Name</th>
-            <th className="p-2">Calories</th>
-            <th className="p-2">Carbs</th>
-            <th className="p-2">Protein</th>
-            <th className="p-2">Fat</th>
-            <th className="p-2">Sodium</th>
+            <th className="p-4">Food Name</th>
+            <th className="p-4">Calories</th>
+            <th className="p-4">Carbs</th>
+            <th className="p-4">Protein</th>
+            <th className="p-4">Fat</th>
+            <th className="p-4">Sodium</th>
           </tr>
         </thead>
         <tbody className="p-4 mx-2 border-2 border-red-900">
           {List.map((food) => {
             return (
               <tr>
-                <td className="p-2">{food.name}</td>
-                <td className="p-2">{food.calories}</td>
-                <td className="p-2">{food.carbs}</td>
-                <td className="p-2">{food.protein}</td>
-                <td className="p-2">{food.fat}</td>
-                <td className="p-2">{food.sodium}</td>
+                <td className="p-4">{food.name}</td>
+                <td className="p-4">{(Math.round(food.calories * 100)/100).toFixed(2)}</td>
+                <td className="p-4">{(Math.round(food.carbs * 100)/100).toFixed(2)}</td>
+                <td className="p-4">{(Math.round(food.protein * 100)/100).toFixed(2)}</td>
+                <td className="p-4">{(Math.round(food.fat * 100)/100).toFixed(2)}</td>
+                <td className="p-4">{(Math.round(food.sodium * 100)/100).toFixed(2)}</td>
               </tr>
             );
           })}
