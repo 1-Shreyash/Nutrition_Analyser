@@ -23,7 +23,7 @@ const Signin = () => {
     }
   return (
     <>
-     <div className='w-full h-screen'>
+     <div className='mt-48 w-full'>
         <div className='bg-white fixed top-0 left-0 w-full h-screen'></div>
         
         <div className='fixed w-full'>
