@@ -1,160 +1,207 @@
-import React, { useState, useEffect,useNavigate} from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Slide } from "react-awesome-reveal";
 import { Link } from "react-router-dom";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { db } from '../Firebase';
-import {updateDoc,doc,onSnapshot,setDoc} from "firebase/firestore"
-import MealPlanner from "./MealPlanner";
-import { UserAuth } from '../Context/AuthContext';
-// import "../index.css"
+import { UserAuth } from "../Context/AuthContext";
 
 const Header = () => {
-  const {user,logOut}=UserAuth();
-  const [nav, setNav] = useState(false);
-  const handleNav = () => {
-    setNav(!nav);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const { user, logOut } = UserAuth();
+  const navigate = useNavigate();
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
   };
 
-  // useEffect(() => {
-  //   console.log(user);
-  // }, []);
+  const handleLogOut = async () => {
+    try {
+      toggleMenu();
+      await logOut();
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Adjust breakpoint as needed
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Set initial value
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <div className="shadow-lg sticky absolute top-4 z-50 flex justify-between items-center h-24 mx-auto px-4 text-black bg-[#EAF4E6]  rounded-xl w-[98%] m-4 text-xl bsx">
-      {/* <Image src={zetlogo} className='h-10 -ml-5'/> */}
-      <div className="flex justify-center items-center text-4xl text-green-800 lemon-regular">
+    <div className="w-full flex justify-center items-center fixed top-0 z-50 pt-4">
+
+    <nav
+      className={`tracking-wider w-[98vw] max-md:w-[96vw] p-4 md:p-6 transition-all duration-300 ${
+        isScrolled ? "bg-blue-500" : "bg-blue-500"
+      } text-black bg-[#EAF4E6]  rounded-xl`}
+    >
+      <div className="flex justify-between items-center">
+        <div className="font-bold hover:scale-105 transition-transform text-2xl md:text-4xl text-green-800 lemon-regular">
           HEALTHIFY
-      </div>
-      <ul className="hidden md:flex">
-        <li className="p-4">
-          <Link to="/">Home</Link>
-        </li>
-        <li className="p-4">
-          <Link to="/nutritionCalculator">Nutrition Calculator</Link>
-        </li>
-        
-         {!user && (
-          <li className="p-4">
-            <Link
-              className="text-lg font-semibold duration-300 text-black hover:text-xl"
-              to="/Login"
-            >
-              Log In
+        </div>
+        <button
+          onClick={toggleMenu}
+          className="lg:hidden relative flex items-center justify-center w-10 h-10"
+        >
+          <svg
+            className={`ham hamRotate ham4 ${isOpen ? "active" : ""}`}
+            viewBox="0 0 100 100"
+            width="50"
+            height="50"
+          >
+            <path
+              className="line top black"
+              d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"
+              stroke="black"
+              fill="none"
+            />
+            <path
+              className="line middle black"
+              d="m 70,50 h -40"
+              stroke="black"
+              fill="none"
+            />
+            <path
+              className="line bottom black"
+              d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"
+              stroke="black"
+              fill="none"
+            />
+          </svg>
+        </button>
+        <ul className="hidden lg:flex space-x-6">
+          <li className="hover:scale-110 transition-transform text-lg">
+            <Link to="/" className="text-black">
+              Home
             </Link>
           </li>
-        )}
-        {user && (
-          <>
-            <li className="p-4">
-              <Link to={`/user/${user.email}`}>Dashboard</Link>
-            </li>
-            <li className="p-4">
-              <Link to="/MealPlanner">MealPlanner</Link>
-            </li>
-
-            <li className="p-4">
-              <div className="flex gap-2 place-items-center">
-                {/* <img
-                  src={user.image}
-                  className="w-8 rounded-full"
-                  alt="user avatar"
-                /> */}
-                {/* <div>{user?.name}</div> */}
-              </div>
-            </li>
-          </>
-        )}
-{user && <li className="p-4">
-          {user.email}
-        </li>}
-        {user && (
-          <li className="p-4">
-            <Link
-              className="text-lg font-semibold duration-300 text-black hover:text-xl"
-              onClick={logOut}
-            >
-              Log out
+          <li className="hover:scale-110 transition-transform text-lg">
+            <Link to="/nutritionCalculator" className="text-black">
+              Nutrition Calculator
             </Link>
           </li>
-        )}
-      </ul>
-
-      {/** For Mobile */}
-      <div onClick={handleNav} className="block md:hidden">
-        {nav ? (
-          <AiOutlineClose size={20} className="fixed right-10" />
-        ) : (
-          <AiOutlineMenu size={20} className="fixed left-10" />
-        )}
-      </div>
-
-      <div
-        className={
-          nav
-            ? "fixed left-0 top-0 w-[60%] h-full border-r bg-[#110011] border-r-gray-900 ease-in-out duration-500 z-50 "
-            : "fixed left-[-100%] z-50 "
-        }
-      >
-        <ul className="pt-12 uppercase p-4">
-          <li
-            className="p-4 border-b border-gray-600"
-            onClick={() => handleNav()}
-          >
-            <Link to="/">Home</Link>
-          </li>
-          <li
-            className="p-4 border-b border-gray-600"
-            onClick={() => handleNav()}
-          >
-            <Link to="/nutritionCalculator">Nutrition Calculator</Link>
-          </li>
-          <li
-            className="p-4 border-b border-gray-600"
-            onClick={() => handleNav()}
-          >
-            <Link to="/Contact">Contact us</Link>
-          </li>
-          {!user && (
-            <li>
-              {/* <Link onClick={() => loginWithRedirect()}>Log In</Link> */}
-            </li>
-          )}
-          {user && (
+          {user ? (
             <>
-              <li className="p-4 border-b border-gray-600">
-                <Link to={`/user/${user.email}`}>Dashboard</Link>
+              <li className="hover:scale-110 transition-transform text-lg">
+                <Link to={`/user/${user.email}`} className="text-black">
+                  Dashboard
+                </Link>
               </li>
-              <li className="p-4 border-b border-gray-600">
-                <button
-                  onClick={
-                    logOut
-                  }
-                >
-                  Log Out
-                </button>
+              <li className="hover:scale-110 transition-transform text-lg">
+                <Link to="/MealPlanner" className="text-black">
+                  MealPlanner
+                </Link>
               </li>
-
-              <li className="p-4 border-b border-gray-600">
-                <div className="flex gap-2 place-items-center">
-                  <img
-                    src={user.image}
-                    className="w-8 rounded-full"
-                    alt="user avatar"
-                  />
-                  {/* <div>{user.name}</div> */}
+              <li className="text-lg">
+                {user.email}
+              </li>
+              <li className="hover:scale-110 transition-transform text-lg">
+                <div className="text-black" onClick={handleLogOut}>
+                  Logout
                 </div>
               </li>
             </>
+          ) : (
+            <li className="hover:scale-110 transition-transform text-lg">
+              <Link to="/login" className="text-black">
+                Log In
+              </Link>
+            </li>
           )}
-          <li className="p-2">
-            <button
-              className="bg-[#2075f0] rounded p-2"
-              onClick={() => handleNav()}
-            >
-              Sign Up
-            </button>
-          </li>
         </ul>
       </div>
+      <div
+        className={`${
+          isOpen ? "max-h-screen pb-4" : "max-h-0"
+        } overflow-hidden lg:hidden transition-all duration-500 text-lg`}
+      >
+        <ul className="mt-4 space-y-2 text-black">
+          <Slide direction="down" duration={300}>
+            <li>
+              <Link to="/" className="block px-4 py-2" onClick={toggleMenu}>
+                Home
+              </Link>
+            </li>
+          </Slide>
+          <Slide direction="down" duration={300}>
+            <li>
+              <Link
+                to="/nutritionCalculator"
+                className="block px-4 py-2"
+                onClick={toggleMenu}
+              >
+                Nutrition Calculator
+              </Link>
+            </li>
+          </Slide>
+          {user ? (
+            <>
+              <Slide direction="down" duration={300}>
+                <li>
+                  <Link
+                    to={`/user/${user.email}`}
+                    className="block px-4 py-2"
+                    onClick={toggleMenu}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              </Slide>
+              <Slide direction="down" duration={300}>
+                <li>
+                  <Link
+                    to="/MealPlanner"
+                    className="block px-4 py-2"
+                    onClick={toggleMenu}
+                  >
+                  MealPlanner
+                  </Link>
+                </li>
+              </Slide>
+
+              <Slide direction="down" duration={300}>
+                <li className="block px-4 py-2">
+                  {user.email}
+                </li>
+              </Slide>
+              <Slide direction="down" duration={300}>
+                <li>
+                  <div onClick={handleLogOut} className="block px-4 py-2">
+                    LogOut
+                  </div>
+                </li>
+              </Slide>
+            </>
+          ) : (
+            <Slide direction="down" duration={300}>
+              <li>
+                <Link to="/login" className="block px-4 py-2" onClick={toggleMenu}>
+                  Log In
+                </Link>
+              </li>
+            </Slide>
+          )}
+        </ul>
+      </div>
+    </nav>
     </div>
   );
 };

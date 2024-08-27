@@ -33,8 +33,8 @@ const MealTracker = () => {
   };
 
   return (
-    <div className="w-full text-xl min-h-screen flex flex-col box-border items-center justify-center ">
-      <div className="m-6 text-5xl font-bold">Find your food</div>
+    <div className="w-full text-xl flex flex-col box-border items-center justify-center mt-28">
+      <div className="m-6 text-3xl lg:text-5xl font-bold">Find your food</div>
       <div className="flex flex-col p-4">
         <label htmlFor="cars">Choose a dish:</label>
         <input
@@ -56,43 +56,83 @@ const MealTracker = () => {
         onClick={FetchData}
       >
         Submit
-      </button>
-      <table className="table mt-10">
-        <thead>
-          <tr>
-            <th className="p-2">Food Name</th>
-            <th className="p-2">Calories</th>
-            <th className="p-2">Carbs</th>
-            <th className="p-2">Protein</th>
-            <th className="p-2">Sugar</th>
-            <th className="p-2">Fat</th>
-            <th className="p-2">Serving Size</th>
-          </tr>
-        </thead>
-        <tbody className="p-4 mx-2 border-t-2 border-zinc-600">
-          {Food.map((food, index) => {
-            return (
-              <tr key={index}>
-                <td className="p-2">{food.name}</td>
-                <td className="p-2">{food.calories}</td>
-                <td className="p-2">{food.carbohydrates_total_g}</td>
-                <td className="p-2">{food.protein_g}</td>
-                <td className="p-2">{food.sugar_g}</td>
-                <td className="p-2">{food.fat_total_g}</td>
-                <td className="p-2">{food.serving_size_g}</td>
-                <td>
-                  <button
-                    onClick={() => handleListChange(food, 2)}
-                    className="flex origin-right px-2 py-1 bg-slate-800 rounded text-slate-200"
-                  >
-                    Add to List
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      </button><div className="overflow-x-auto">
+  <table className="hidden lg:table min-w-full table-auto mt-10 mx-2">
+    <thead>
+      <tr className="bg-gray-200">
+        <th className="p-2 text-left">Food Name</th>
+        <th className="p-2 text-left">Calories</th>
+        <th className="p-2 text-left">Carbs</th>
+        <th className="p-2 text-left">Protein</th>
+        <th className="p-2 text-left">Sugar</th>
+        <th className="p-2 text-left">Fat</th>
+        <th className="p-2 text-left">Serving Size</th>
+        <th className="p-2 text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody className="bg-white border-t-2 border-zinc-600">
+      {Food.map((food, index) => (
+        <tr key={index} className="border-b">
+          <td className="p-2">{food.name}</td>
+          <td className="p-2">{food.calories}</td>
+          <td className="p-2">{food.carbohydrates_total_g}</td>
+          <td className="p-2">{food.protein_g}</td>
+          <td className="p-2">{food.sugar_g}</td>
+          <td className="p-2">{food.fat_total_g}</td>
+          <td className="p-2">{food.serving_size_g}</td>
+          <td className="p-2">
+            <button
+              onClick={() => handleListChange(food, 2)}
+              className="px-2 py-1 bg-slate-800 rounded text-slate-200"
+            >
+              Add to List
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  {/* Vertical layout for small screens */}
+  <div className="lg:hidden flex flex-col gap-4 mt-10 mx-2">
+    {Food.map((food, index) => (
+      <div
+        key={index}
+        className="bg-white border border-gray-200 rounded-md shadow-md p-4"
+      >
+        <div className="mb-2">
+          <span className="font-bold">Food Name: </span>{food.name}
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">Calories: </span>{food.calories}
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">Carbs: </span>{food.carbohydrates_total_g}g
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">Protein: </span>{food.protein_g}g
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">Sugar: </span>{food.sugar_g}g
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">Fat: </span>{food.fat_total_g}g
+        </div>
+        <div className="mb-2">
+          <span className="font-bold">Serving Size: </span>{food.serving_size_g}g
+        </div>
+        <button
+          onClick={() => handleListChange(food, 2)}
+          className="w-full mt-4 px-4 py-2 bg-slate-800 text-slate-200 rounded-md"
+        >
+          Add to List
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
+
+
     </div>
   );
 };

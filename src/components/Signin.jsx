@@ -26,7 +26,7 @@ const Signin = () => {
      <div className='w-full h-screen'>
         <div className='bg-white fixed top-0 left-0 w-full h-screen'></div>
         
-        <div className='fixed w-full  z-50'>
+        <div className='fixed w-full'>
           <div className='max-w-[450px] h-[600px] mx-auto  text-white'>
             
             <div className='max-w-[320px] mx-auto py-16'>

@@ -1,54 +1,53 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { db } from '../Firebase';
-import {updateDoc,doc,onSnapshot} from "firebase/firestore"
+import { updateDoc, doc, onSnapshot } from "firebase/firestore";
 import { UserAuth } from '../Context/AuthContext';
 import { Chart } from "react-google-charts";
 
 const Dashboard = () => {
   const [Food, setFood] = useState([]);
-  const {user,List}=UserAuth();
-  var Protein=0;
-  var Carbs=0;
-  var Sodium=0;
-  var Fat=0;
-  for(var i=0;i<List.length;i++){
-    Protein+=List[i].protein;
-    Carbs+=List[i].carbs;
-    Fat+=List[i].fat;
-    Sodium+=(List[i].sodium/1000);
+  const { user, List } = UserAuth();
+  let Protein = 0;
+  let Carbs = 0;
+  let Sodium = 0;
+  let Fat = 0;
+  for (let i = 0; i < List.length; i++) {
+    Protein += List[i].protein;
+    Carbs += List[i].carbs;
+    Fat += List[i].fat;
+    Sodium += (List[i].sodium / 1000);
   }
+
   const FoodName = useRef(null);
   const FoodQuantity = useRef(null);
 
-    const [Meals,setMeals]=useState([]);
-   const data = [
-      ["Task", "Hours per Day"],
-      ["Fats", Fat],
-      ["Carbs", Carbs],
-      ["Protein", Protein],
-      ["Fibre", Carbs],
-      ["Sodium", Sodium],
-      
-    ];
-    const options = {
-      title: "My DAILY NUTRITION CHART",
-    };
-    useEffect(() => {
-        onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
-          setMeals(doc.data()?.meals);
-        });
-      }, [user?.email]);
+  const [Meals, setMeals] = useState([]);
+  const data = [
+    ["Task", "Amount"],
+    ["Fats", Fat],
+    ["Carbs", Carbs],
+    ["Protein", Protein],
+    ["Fibre", Carbs],
+    ["Sodium", Sodium],
+  ];
+  const options = {
+    title: "My DAILY NUTRITION CHART",
+  };
+
+  useEffect(() => {
+    onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
+      setMeals(doc.data()?.meals);
+    });
+  }, [user?.email]);
+
   const FetchData = async () => {
-    var q = FoodQuantity.current.value + "g " + FoodName.current.value;
+    const q = `${FoodQuantity.current.value}g ${FoodName.current.value}`;
     console.log(q);
     const options = {
       method: "GET",
       url: "https://nutrition-by-api-ninjas.p.rapidapi.com/v1/nutrition",
-      params: {
-        query: q,
-        //   '1kg brisket with fries'
-      },
+      params: { query: q },
       headers: {
         "X-RapidAPI-Key": "5a039eaa0dmsh0845f457c18724cp123e21jsn195f802a65ff",
         "X-RapidAPI-Host": "nutrition-by-api-ninjas.p.rapidapi.com",
@@ -56,7 +55,7 @@ const Dashboard = () => {
     };
     try {
       const response = await axios.request(options);
-      let updatedData = [...Food, response.data];
+      const updatedData = [...Food, response.data];
       console.log(response.data);
       setFood(updatedData);
       localStorage.setItem("foodEat", JSON.stringify(updatedData));
@@ -65,52 +64,51 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(()=>{
-    let data = JSON.parse(localStorage.getItem("foodEat"));
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("foodEat"));
     if (data) {
       setFood(data);
     }
-  },[])
+  }, []);
 
   return (
-    <div className="w-full min-h-screen h-screen flex justify-between border-blue-900 p-12 text-xl">
-        <div>
-
-         <table className="table">
-        <thead>
-          <tr>
-            <th className="p-4">Food Name</th>
-            <th className="p-4">Calories</th>
-            <th className="p-4">Carbs</th>
-            <th className="p-4">Protein</th>
-            <th className="p-4">Fat</th>
-            <th className="p-4">Sodium</th>
-          </tr>
-        </thead>
-        <tbody className="p-4 mx-2 border-2 border-red-900">
-          {List.map((food) => {
-            return (
-              <tr>
-                <td className="p-4">{food.name}</td>
-                <td className="p-4">{(Math.round(food.calories * 100)/100).toFixed(2)}</td>
-                <td className="p-4">{(Math.round(food.carbs * 100)/100).toFixed(2)}</td>
-                <td className="p-4">{(Math.round(food.protein * 100)/100).toFixed(2)}</td>
-                <td className="p-4">{(Math.round(food.fat * 100)/100).toFixed(2)}</td>
-                <td className="p-4">{(Math.round(food.sodium * 100)/100).toFixed(2)}</td>
+    <div className="w-full mt-28 p-4 lg:p-12 flex flex-col lg:flex-row gap-6">
+      <div className="w-full lg:w-2/3 overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="p-2 lg:p-4 text-xs lg:text-sm font-medium">Food Name</th>
+              <th className="p-2 lg:p-4 text-xs lg:text-sm font-medium">Calories</th>
+              <th className="p-2 lg:p-4 text-xs lg:text-sm font-medium">Carbs</th>
+              <th className="p-2 lg:p-4 text-xs lg:text-sm font-medium">Protein</th>
+              <th className="p-2 lg:p-4 text-xs lg:text-sm font-medium">Fat</th>
+              <th className="p-2 lg:p-4 text-xs lg:text-sm font-medium">Sodium</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {List.map((food, index) => (
+              <tr key={index}>
+                <td className="p-2 lg:p-4 text-xs lg:text-sm">{food.name}</td>
+                <td className="p-2 lg:p-4 text-xs lg:text-sm">{(Math.round(food.calories * 100) / 100).toFixed(2)}</td>
+                <td className="p-2 lg:p-4 text-xs lg:text-sm">{(Math.round(food.carbs * 100) / 100).toFixed(2)}</td>
+                <td className="p-2 lg:p-4 text-xs lg:text-sm">{(Math.round(food.protein * 100) / 100).toFixed(2)}</td>
+                <td className="p-2 lg:p-4 text-xs lg:text-sm">{(Math.round(food.fat * 100) / 100).toFixed(2)}</td>
+                <td className="p-2 lg:p-4 text-xs lg:text-sm">{(Math.round(food.sodium * 100) / 100).toFixed(2)}</td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-        </div>
-      
-              <Chart
-      chartType="PieChart"
-      data={data}
-      options={options}
-      width={"100%"}
-      height={"400px"}
-    />
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="w-full lg:w-1/3">
+        <Chart
+          chartType="PieChart"
+          data={data}
+          options={options}
+          width={"100%"}
+          height={"400px"}
+        />
+      </div>
     </div>
   );
 };

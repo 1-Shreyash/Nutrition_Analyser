@@ -10,6 +10,7 @@
     "axios": "^1.6.5",
     "firebase": "^10.7.1",
     "react": "^18.2.0",
+    "react-awesome-reveal": "^4.2.14",
     "react-dom": "^18.2.0",
     "react-google-charts": "^4.0.1",
     "react-icons": "^5.0.1",

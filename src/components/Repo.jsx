@@ -5,7 +5,7 @@ import { UserAuth } from "../Context/AuthContext";
 const Repo = () => {
   const { Food, setList, handleListChange } = UserAuth();
   return (
-    <div className="grid grid-cols-4">
+    <div className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {Food[0]?.map((food) => {
         return (
           <div>
